@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { resend } from "@/lib/resend";
+import { getResend } from "@/lib/resend";
 import { addRowToSheet } from "@/lib/google-sheets";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -79,6 +79,7 @@ export async function POST(request: Request) {
     // #region agent log
     debugLog("before Resend", { fromEmail, toEmail: toEmail?.slice(0, 5) }, "C");
     // #endregion
+    const resend = getResend();
     await resend.emails.send({
       from: fromEmail,
       to: toEmail,
